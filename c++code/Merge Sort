@@ -1,0 +1,62 @@
+#include <iostream>
+#include <fstream>
+void merge(int arr[],int start,int mid,int end){
+int i = start, j=mid+1,k=0;
+int temp[end+1];
+while(i<=mid && j<=end){
+if(arr[i]<=arr[j]){
+temp[k]=arr[i];
+i++,k++;
+}
+else{
+temp[k]=arr[j];
+j++,k++;
+}
+}
+while(i<=mid){
+temp[k]=arr[i];
+i++,k++;
+}
+while(j<=end){
+temp[k]=arr[j] ;
+j++,k++;
+}
+
+k = 0;
+while(start<=end){
+arr[start]=temp[k];
+k++,start++;
+}
+}
+void mergesort(int arr[], int start, int end){
+if(start == end){
+return ;
+}
+int mid = (start+end)/2;
+mergesort(arr,start,mid);
+mergesort(arr,mid+1,end);
+merge(arr,start,mid,end);
+}
+void printarray(int arr[],int size){
+for(int i=0;i<size;i++)
+printf("%d",arr[i]);
+printf("\n");
+}
+int main() {
+std::ifstream inputFile("input.txt");
+int arr[100];
+int number;
+int size = 0;
+while (inputFile >> number) {
+arr[size] = number;
+size++;
+}
+
+inputFile.close();
+mergesort(arr,0, size - 1);
+for (int i = 0; i < size; i++) {
+std::cout << arr[i] << " ";
+}
+std::cout << std::endl;
+return 0;
+}
