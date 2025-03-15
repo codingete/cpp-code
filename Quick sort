@@ -1,0 +1,51 @@
+#include <iostream>
+using namespace std;
+
+int partition(int arr[], int low, int high, int& comparisonCounter) {
+int pivot = arr[(low + high) / 2]; 
+int i = low - 1;
+swap(arr[(low + high) / 2], arr[high]); 
+
+for (int j = low; j < high; ++j) {
+comparisonCounter++;
+if (arr[j] <= pivot) {
+i++;
+swap(arr[i], arr[j]);
+}
+}
+
+swap(arr[i + 1], arr[high]);
+return i + 1;
+}
+
+void quickSort(int arr[], int low, int high, int& comparisonCounter) {
+if (low < high) {
+
+int pi = partition(arr, low, high, comparisonCounter);
+quickSort(arr, low, pi - 1, comparisonCounter);
+quickSort(arr, pi + 1, high, comparisonCounter);
+}
+}
+
+int main() {
+int input_sizes[] = {10, 50, 100, 500, 1000};
+
+for (int i = 0; i < 5; ++i) {
+int n = input_sizes[i];
+
+int* arr = new int[n];
+for (int j = 0; j < n; ++j) {
+arr[j] = rand() % 1000;
+}
+
+int comparisonCounter = 0;
+quickSort(arr, 0, n - 1, comparisonCounter);
+
+cout << "Array size: " << n << ", Comparisons: " << comparisonCounter << endl;
+
+delete[] arr;
+}
+
+return 0;
+
+}
